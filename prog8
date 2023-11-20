@@ -1,0 +1,48 @@
+from sklearn.model_selection import train_test_split
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn import datasets
+# Load dataset
+iris=datasets.load_iris()
+print("Iris Data set loaded...")
+# Split the data into train and test samples
+x_train, x_test, y_train, y_test = train_test_split(iris.data,iris.target,test_size=0.1)
+print("Dataset is split into training and testing...")
+print("Size of trainng data and its label",x_train.shape,y_train.shape)
+print("Size of trainng data and its label",x_test.shape, y_test.shape)
+# Prints Label no. and their names
+for i in range(len(iris.target_names)):
+ print("Label", i , "-",str(iris.target_names[i]))
+# Create object of KNN classifier
+classifier = KNeighborsClassifier(n_neighbors=1)
+# Perform Training
+classifier.fit(x_train, y_train)
+# Perform testing
+y_pred=classifier.predict(x_test)
+# Display the results
+print("Results of Classification using K-nn with K=1 ")
+for r in range(0,len(x_test)):
+ print(" Sample:", str(x_test[r]), " Actual-label:", str(y_test[r]), " Predicted-label:",str(y_pred[r]))
+ print("Classification Accuracy :" , classifier.score(x_test,y_test));
+#from sklearn.metrics import classification_report, confusion_matrix
+#print('Confusion Matrix')
+#print(confusion_matrix(y_test,y_pred))
+#print('Accuracy Metrics')
+#print(classification_report(y_test,y_pred))
+`43
+OUTPUT
+Iris Data set loaded...
+Dataset is split into training and testing samples...
+Size of trainng data and its label (135, 4) (135,)
+Size of trainng data and its label (15, 4) (15,)
+Label 0 - setosa
+Label 1 - versicolor
+Label 2 - virginica
+Results of Classification using K-nn with K=1
+Sample: [4.4 3. 1.3 0.2] Actual-label: 0 Predicted-label: 0
+Sample: [5.1 2.5 3. 1.1] Actual-label: 1 Predicted-label: 1
+Sample: [6.1 2.8 4. 1.3] Actual-label: 1 Predicted-label: 1
+Sample: [6. 2.7 5.1 1.6] Actual-label: 1 Predicted-label: 2
+Sample: [6.7 2.5 5.8 1.8] Actual-label: 2 Predicted-label: 2
+Sample: [5.1 3.8 1.5 0.3] Actual-label: 0 Predicted-label: 0
+Sample: [6.7 3.1 4.4 1.4] Actual-label: 1 Predicted-label: 1
+Classification Accuracy : 0.93
