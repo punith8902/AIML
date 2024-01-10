@@ -1,0 +1,27 @@
+import numpy as np
+from matplotlib import pyplot as plt
+
+def locally_weighted_regression(x, y, kernel, bandwidth):
+  n = len(x)
+  fitted_values = np.zeros(n)
+  for i in range(n):
+    distances = np.abs(x - x[i]) / bandwidth
+    weights = kernel(distances)
+    w_sum = weights.sum()
+    fitted_values[i] = (weights * y).sum() / w_sum if w_sum != 0 else 0
+  return fitted_values
+
+def tricube_kernel(distances):
+  return np.where(distances < 1,(1 - np.abs(distances)**3)**3,0)
+
+x = np.linspace(0, 10, 100)
+y = np.sin(x) + 0.5 * np.random.randn(100)
+
+fitted_values = locally_weighted_regression(x, y, tricube_kernel, 1.5)
+
+plt.plot(x, y, '-', label='Data points')
+plt.plot(x, fitted_values, '-', label='Fitted curve')
+plt.xlabel('x')
+plt.ylabel('y')
+plt.legend()
+plt.show()
